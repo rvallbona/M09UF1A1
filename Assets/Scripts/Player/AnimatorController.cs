@@ -8,16 +8,27 @@ public class AnimatorController : MonoBehaviour
 {
     Animator anim;
     PlayerController playerController;
+    private PlayerInputAction playerInputAction;
 
     private bool groundedPlayer;
     private bool canDoubleJump;
     private bool canTripleJump;
 
     private bool JumpPress;
-    private bool AtackPress;
+    private bool CappyPress;
     private bool CrouchPress;
-
-    
+    private void Awake()
+    {
+        playerInputAction = new PlayerInputAction();
+    }
+    private void OnEnable()
+    {
+        playerInputAction.Character.Enable();
+    }
+    private void OnDisable()
+    {
+        playerInputAction.Character.Disable();
+    }
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -25,7 +36,7 @@ public class AnimatorController : MonoBehaviour
     void Update()
     {
         Inputs();
-        Var();
+        AuxVar();
 
         anim.SetFloat("Speed", playerController.GetVelocity());
         if (groundedPlayer)
@@ -59,10 +70,10 @@ public class AnimatorController : MonoBehaviour
     void Inputs()
     {
         JumpPress = Input_Manager._INPUT_MANAGER.GetSouthButtonPressed();
-        AtackPress = Input_Manager._INPUT_MANAGER.GetAtackButtonPressed();
+        CappyPress = Input_Manager._INPUT_MANAGER.GetCappyButtonPressed();
         CrouchPress = Input_Manager._INPUT_MANAGER.GetCrouchButtonPressed();
     }
-    void Var()
+    void AuxVar()
     {
         groundedPlayer = playerController.IsGround();
     }

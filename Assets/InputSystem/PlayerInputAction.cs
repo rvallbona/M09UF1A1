@@ -62,6 +62,24 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Backflip"",
+                    ""type"": ""Button"",
+                    ""id"": ""efe1a19d-829f-4e9d-bf92-b4d1e1eeaa9c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cappy"",
+                    ""type"": ""Button"",
+                    ""id"": ""30ecc33d-7379-4fb5-8db4-4badac98c974"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +170,28 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aacb6ba5-5107-4f77-8768-29365d3ba6e3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cappy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1dfb50d4-8ce4-4fa8-809d-b47c72084f3e"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Backflip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +204,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Character_Jump = m_Character.FindAction("Jump", throwIfNotFound: true);
         m_Character_View = m_Character.FindAction("View", throwIfNotFound: true);
         m_Character_Crouch = m_Character.FindAction("Crouch", throwIfNotFound: true);
+        m_Character_Backflip = m_Character.FindAction("Backflip", throwIfNotFound: true);
+        m_Character_Cappy = m_Character.FindAction("Cappy", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,6 +269,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_Jump;
     private readonly InputAction m_Character_View;
     private readonly InputAction m_Character_Crouch;
+    private readonly InputAction m_Character_Backflip;
+    private readonly InputAction m_Character_Cappy;
     public struct CharacterActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -235,6 +279,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Character_Jump;
         public InputAction @View => m_Wrapper.m_Character_View;
         public InputAction @Crouch => m_Wrapper.m_Character_Crouch;
+        public InputAction @Backflip => m_Wrapper.m_Character_Backflip;
+        public InputAction @Cappy => m_Wrapper.m_Character_Cappy;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +302,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Crouch.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCrouch;
+                @Backflip.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnBackflip;
+                @Backflip.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnBackflip;
+                @Backflip.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnBackflip;
+                @Cappy.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCappy;
+                @Cappy.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCappy;
+                @Cappy.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCappy;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -272,6 +324,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @Backflip.started += instance.OnBackflip;
+                @Backflip.performed += instance.OnBackflip;
+                @Backflip.canceled += instance.OnBackflip;
+                @Cappy.started += instance.OnCappy;
+                @Cappy.performed += instance.OnCappy;
+                @Cappy.canceled += instance.OnCappy;
             }
         }
     }
@@ -282,5 +340,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnView(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnBackflip(InputAction.CallbackContext context);
+        void OnCappy(InputAction.CallbackContext context);
     }
 }

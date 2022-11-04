@@ -29,9 +29,12 @@ public class PlayerController : MonoBehaviour
     //Anim
     private Animator anim;
 
+    private bool isCrouched;
+
     private bool JumpPress;
-    private bool AtackPress;
+    private bool CappyPress;
     private bool CrouchPress;
+    private bool BackflipPress;
     private void Awake()
     {
         playerInputAction = new PlayerInputAction();
@@ -58,6 +61,25 @@ public class PlayerController : MonoBehaviour
         Crouch();
 
         controller.Move(playerVelocity * Time.deltaTime);
+        if (BackflipPress)
+        {
+            Debug.Log("b");
+        }
+        if (CappyPress)
+        {
+            Debug.Log("cappy");
+        }
+        if (CrouchPress && groundedPlayer)
+        {
+            Debug.Log("crouch");
+            anim.SetBool("Crouch", true);
+            isCrouched = true;
+        }
+        if (CrouchPress && groundedPlayer && isCrouched)
+        {
+            anim.SetBool("Crouch", false);
+        }
+
     }
     private void FixedUpdate()
     {
@@ -66,8 +88,9 @@ public class PlayerController : MonoBehaviour
     void Inputs()
     {
         JumpPress = Input_Manager._INPUT_MANAGER.GetSouthButtonPressed();
-        AtackPress = Input_Manager._INPUT_MANAGER.GetAtackButtonPressed();
+        CappyPress = Input_Manager._INPUT_MANAGER.GetCappyButtonPressed();
         CrouchPress = Input_Manager._INPUT_MANAGER.GetCrouchButtonPressed();
+        BackflipPress = Input_Manager._INPUT_MANAGER.GetBackflipButtonPressed(); 
     }
     void Gravity()
     {
@@ -113,7 +136,8 @@ public class PlayerController : MonoBehaviour
                 canTripleJump = true;
                 playerVelocity.y += Mathf.Sqrt((jumpForce * doubleJumpForce) * -3.0f * gravityForce);
                 anim.SetBool("Jump", true);
-            }else
+            }
+            else
             {
                 if (JumpPress && canTripleJump && !groundedPlayer)
                 {
