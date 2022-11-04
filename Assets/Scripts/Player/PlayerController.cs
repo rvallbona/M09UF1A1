@@ -26,12 +26,12 @@ public class PlayerController : MonoBehaviour
 
     private float platformJumpForce = 2f;
 
+    //Anim
+    private Animator anim;
+
     private bool JumpPress;
     private bool AtackPress;
     private bool CrouchPress;
-
-    //Anim
-    private Animator anim;
     private void Awake()
     {
         playerInputAction = new PlayerInputAction();
@@ -135,12 +135,19 @@ public class PlayerController : MonoBehaviour
         {
             isCrouching = false;
         }
-        Debug.Log(isCrouching);
     }
 
     public void PlatformJump()
     {
         playerVelocity.y += Mathf.Sqrt(platformJumpForce * -3.0f * gravityForce);
         anim.SetBool("Jump", true);
+    }
+    public float GetVelocity()
+    {
+        return controller.velocity.magnitude;
+    }
+    public bool IsGround()
+    {
+        return groundedPlayer;
     }
 }

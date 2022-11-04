@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class PlatformDamage : MonoBehaviour
 {
-    [SerializeField]Player_Manager player_Manager;
+    [SerializeField] Player_Game Player_Game;
     public int dmg = 10;
+    private void Start()
+    {
+        Player_Game = GetComponent<Player_Game>();
+    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Damage");
-            player_Manager.Damage(dmg);
+            Player_Game.Damage(dmg);
         }
     }
     public void OnTriggerStay(Collider other)
@@ -19,7 +23,7 @@ public class PlatformDamage : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Damage");
-            player_Manager.Damage(dmg);
+            Player_Game.Damage(dmg);
         }
     }
 }
