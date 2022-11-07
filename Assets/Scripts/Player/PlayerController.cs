@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private bool Colision;
-    private float playerSpeed = 4.0f;
+    private float playerSpeed = 5f;
     private float jumpForce = 1f;
     private float doubleJumpForce = 0.7f;
     private float tripleJumpForce = 0.5f;
@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
             gameObject.transform.forward = direction;
         }
         anim.SetFloat("Speed", controller.velocity.magnitude);
+        anim.SetFloat("CrouchSpeed", controller.velocity.magnitude);
         if (groundedPlayer) { anim.SetBool("Jump", false); }
     }
 
@@ -186,11 +187,14 @@ public class PlayerController : MonoBehaviour
         if (CrouchPress)
         {
             isCrouching = true;
-
+            Debug.Log(isCrouching);
+            anim.SetBool("Crouch", true);
         }
         else if (!CrouchPress)
         {
             isCrouching = false;
+            Debug.Log(isCrouching);
+            anim.SetBool("Crouch", false);
         }
     }
 

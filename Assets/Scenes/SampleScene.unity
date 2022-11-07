@@ -978,7 +978,7 @@ MonoBehaviour:
   mouseSensitivity: 0.1
   target: {fileID: 1816977950}
   distanceFromTarget: 5
-  smoothTime: 0.5
+  smoothTime: 0.1
   cameraLerp: 12
 --- !u!1001 &980615560
 PrefabInstance:

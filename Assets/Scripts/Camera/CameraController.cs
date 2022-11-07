@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
         rotationX += mouseInput.x * mouseSensitivity;
         rotationY += mouseInput.y * mouseSensitivity;
 
-        rotationY = Mathf.Clamp(rotationY, 9, 90);
+        rotationY = Mathf.Clamp(rotationY, -70, 90);
 
         Vector3 nextRotation = new Vector3(rotationY, rotationX);
         currentRotation = Vector3.SmoothDamp(currentRotation, nextRotation, ref smoothVelocity, smoothTime);
