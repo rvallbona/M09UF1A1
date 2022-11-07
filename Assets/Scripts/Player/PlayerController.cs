@@ -14,10 +14,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private GameObject player;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
+    private bool Colision;
     private float playerSpeed = 4.0f;
     private float jumpForce = 1f;
     private float doubleJumpForce = 0.5f;
-    private float tripleJumpForce = 0.2f;
+    private float tripleJumpForce = 0.3f;
+    private float wallJumpForce = 0.5f;
     private bool canDoubleJump = false;
     private bool canTripleJump = false;
     private float gravityForce = -9.81f;
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
         if (BackflipPress)
         {
             Debug.Log("b");
+            //anim.SetBool("Backflip", true);
         }
         if (CappyPress)
         {
@@ -120,12 +123,13 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed", controller.velocity.magnitude);
         if (groundedPlayer) { anim.SetBool("Jump", false); }
     }
+
     void Jump()
     {
         if (JumpPress && groundedPlayer)
         {
             canDoubleJump = true;
-            playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravityForce);
+            Jumping(jumpForce);
             anim.SetBool("Jump", true);
         }
         else 
@@ -134,7 +138,7 @@ public class PlayerController : MonoBehaviour
             {
                 canDoubleJump = false;
                 canTripleJump = true;
-                playerVelocity.y += Mathf.Sqrt((jumpForce * doubleJumpForce) * -3.0f * gravityForce);
+                Jumping(doubleJumpForce);
                 anim.SetBool("Jump", true);
             }
             else
@@ -142,11 +146,28 @@ public class PlayerController : MonoBehaviour
                 if (JumpPress && canTripleJump && !groundedPlayer)
                 {
                     canTripleJump = false;
-                    playerVelocity.y += Mathf.Sqrt((jumpForce * tripleJumpForce) * -3.0f * gravityForce);
+                    Jumping(tripleJumpForce);
                     anim.SetBool("Jump", true);
                 }
             }
         }
+        WallJump();
+    }
+    void WallJump()
+    {
+        if (!groundedPlayer && controller.collisionFlags == CollisionFlags.Sides)
+        {
+            if (JumpPress)
+            {
+                Debug.Log("wallJump");
+                Jumping(wallJumpForce);
+                anim.SetBool("Jump", true);
+            }
+        }
+    }
+    void Jumping(float jumpForce)
+    {
+        playerVelocity.y += Mathf.Sqrt((jumpForce * jumpForce) * -3.0f * gravityForce);
     }
     void Crouch()
     {
@@ -163,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlatformJump()
     {
-        playerVelocity.y += Mathf.Sqrt(platformJumpForce * -3.0f * gravityForce);
+        Jumping(platformJumpForce);
         anim.SetBool("Jump", true);
     }
     public float GetVelocity()

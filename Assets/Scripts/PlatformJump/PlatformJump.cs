@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlatformJump : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
         Debug.Log("Hola");
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerController>().PlatformJump();
+            Debug.Log("Player");
+            other.gameObject.GetComponent<PlayerController>().PlatformJump();
         }
     }
 }
