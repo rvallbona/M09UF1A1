@@ -33,8 +33,9 @@ public class PlayerController : MonoBehaviour
     //Vector3 groundPosition;
     //Vector3 lastGroundPosition;
     //string lastGroundName;
-
-    private float platformJumpForce = 3f;
+    [SerializeField]
+    private float platformJumpForce = 2f;
+    private float cappyJumpForce = 3f;
 
     //Anim
     private Animator anim;
@@ -199,6 +200,11 @@ public class PlayerController : MonoBehaviour
     }
 
     public void PlatformJump()
+    {
+        Jumping(platformJumpForce);
+        anim.SetBool("Jump", true);
+    }
+    public void CappyJump()
     {
         Jumping(platformJumpForce);
         anim.SetBool("Jump", true);
