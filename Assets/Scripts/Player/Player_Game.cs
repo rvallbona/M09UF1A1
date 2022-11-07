@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Game : MonoBehaviour
 {
@@ -9,6 +10,13 @@ public class Player_Game : MonoBehaviour
     [SerializeField] bool godMode = false;
     [SerializeField] float time_goodMode = 1f;
     [SerializeField] int money = 0;
+    public void Update()
+    {
+        if (live <= 0 || money >= 5)
+        {
+            RestartLevel("SampleScene");
+        }
+    }
     public void Damage(int dmg)
     {
         if (!godMode && live >= 0)
@@ -35,6 +43,10 @@ public class Player_Game : MonoBehaviour
     public void Coin(int value)
     {
         money += value;
+    }
+    void RestartLevel(string nscene)
+    {
+        SceneManager.LoadScene(nscene);
     }
 }
 

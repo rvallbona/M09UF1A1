@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public bool isCrouching;
     public float rotationSpeed = 10f;
 
-    private float platformJumpForce = 2f;
+    private float platformJumpForce = 3f;
 
     //Anim
     private Animator anim;

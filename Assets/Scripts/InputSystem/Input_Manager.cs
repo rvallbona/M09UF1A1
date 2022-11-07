@@ -10,7 +10,6 @@ public class Input_Manager : MonoBehaviour
     private float timeSinceCrouchPressed = 0f;
     private float timeSinceCappyPressed = 0f;
     private float timeSinceBackflipPressed = 0f; 
-    private bool backflip = false;
     private Vector2 leftAxisValue = Vector2.zero;
     private Vector2 mousePosition = Vector2.zero;
     private PlayerInputAction playerInputs;
