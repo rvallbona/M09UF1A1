@@ -17,14 +17,22 @@ public class PlayerController : MonoBehaviour
     private bool Colision;
     private float playerSpeed = 4.0f;
     private float jumpForce = 1f;
-    private float doubleJumpForce = 0.5f;
-    private float tripleJumpForce = 0.3f;
+    private float doubleJumpForce = 0.7f;
+    private float tripleJumpForce = 0.5f;
     private float wallJumpForce = 0.5f;
+    private float timerWallJump = 0f;
     private bool canDoubleJump = false;
     private bool canTripleJump = false;
     private float gravityForce = -9.81f;
     public bool isCrouching;
     public float rotationSpeed = 10f;
+
+    ////Platform_move
+    //GameObject groundIn;
+    //string groundName;
+    //Vector3 groundPosition;
+    //Vector3 lastGroundPosition;
+    //string lastGroundName;
 
     private float platformJumpForce = 3f;
 
@@ -61,6 +69,8 @@ public class PlayerController : MonoBehaviour
         Movement();
         Jump();
         Crouch();
+
+        //PlatformMove();
 
         controller.Move(playerVelocity * Time.deltaTime);
         if (BackflipPress)
@@ -155,13 +165,15 @@ public class PlayerController : MonoBehaviour
     }
     void WallJump()
     {
+        timerWallJump += Time.deltaTime;
         if (!groundedPlayer && controller.collisionFlags == CollisionFlags.Sides)
         {
-            if (JumpPress)
+            if (JumpPress && timerWallJump > 1f)
             {
                 Debug.Log("wallJump");
                 Jumping(wallJumpForce);
                 anim.SetBool("Jump", true);
+                timerWallJump = 0;
             }
         }
     }
@@ -187,6 +199,32 @@ public class PlayerController : MonoBehaviour
         Jumping(platformJumpForce);
         anim.SetBool("Jump", true);
     }
+    //public void PlatformMove()
+    //{
+    //    if (groundedPlayer)
+    //    {
+    //        RaycastHit hit;
+    //        if (Physics.Raycast(transform.position, Vector3.down, out hit))
+    //        {
+    //            groundIn = hit.collider.gameObject;
+    //            groundName = groundIn.name;
+    //            groundPosition = groundIn.transform.position;
+    //            if ((groundPosition != lastGroundPosition) && (groundName == lastGroundName))
+    //            {
+    //                this.transform.position += groundPosition - lastGroundPosition;
+    //                controller.enabled = false;
+    //                controller.transform.position = this.transform.position;
+    //                controller.enabled = true;
+    //            }
+    //            lastGroundName = groundName;
+    //            lastGroundPosition = groundPosition;
+    //        }
+    //    }
+    //    else if (!groundedPlayer)
+    //    {
+    //        lastGroundPosition = Vector3.zero;
+    //    }
+    //}
     public float GetVelocity()
     {
         return controller.velocity.magnitude;
