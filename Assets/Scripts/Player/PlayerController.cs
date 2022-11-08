@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float platformJumpForce = 2f;
     private float cappyJumpForce = 3f;
+    private bool canSpawnCappy;
+    private float timerCappy;
     //Cappy
     [SerializeField] GameObject cappy;
     [SerializeField] GameObject cappySpawn;
@@ -171,11 +173,17 @@ public class PlayerController : MonoBehaviour
     }
     void Cappy()
     {
-        if (CappyPress && !player_game.cappySpawned)
+        timerCappy += Time.deltaTime;
+        if (timerCappy >= 0)
+        {
+            canSpawnCappy = true;
+        }
+        if (CappyPress && timerCappy <= 6)
         {
             Debug.Log("CappyShoot");
             Instantiate(cappy, cappySpawn.transform.position, cappySpawn.transform.rotation);
-            player_game.cappySpawned = true;
+            canSpawnCappy = false;
+            timerCappy = 0;
         }
     }
     public void PlatformJump()

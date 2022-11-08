@@ -23,10 +23,6 @@ public class Player_Game : MonoBehaviour
             RestartLevel("SampleScene");
         }
         CappyObject = GameObject.FindGameObjectWithTag("Cappy");
-        if (!CappyObject)
-        {
-            cappySpawned = false;
-        }
     }
     public void Damage(int dmg)
     {
