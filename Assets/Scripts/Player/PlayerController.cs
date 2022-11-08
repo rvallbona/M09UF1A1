@@ -27,12 +27,6 @@ public class PlayerController : MonoBehaviour
     public bool isCrouching;
     public float rotationSpeed = 10f;
 
-    ////Platform_move
-    //GameObject groundIn;
-    //string groundName;
-    //Vector3 groundPosition;
-    //Vector3 lastGroundPosition;
-    //string lastGroundName;
     [SerializeField]
     private float platformJumpForce = 2f;
     private float cappyJumpForce = 3f;
@@ -44,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private bool JumpPress;
     private bool CappyPress;
+    private bool CrouchNoPress;
     private bool CrouchPress;
     private bool BackflipPress;
     private void Awake()
@@ -71,29 +66,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         Crouch();
 
-        //PlatformMove();
-
         controller.Move(playerVelocity * Time.deltaTime);
-        if (BackflipPress)
-        {
-            Debug.Log("b");
-            //anim.SetBool("Backflip", true);
-        }
-        if (CappyPress)
-        {
-            Debug.Log("cappy");
-        }
-        if (CrouchPress && groundedPlayer)
-        {
-            Debug.Log("crouch");
-            anim.SetBool("Crouch", true);
-            isCrouched = true;
-        }
-        if (CrouchPress && groundedPlayer && isCrouched)
-        {
-            anim.SetBool("Crouch", false);
-        }
-
     }
     private void FixedUpdate()
     {
@@ -104,6 +77,7 @@ public class PlayerController : MonoBehaviour
         JumpPress = Input_Manager._INPUT_MANAGER.GetSouthButtonPressed();
         CappyPress = Input_Manager._INPUT_MANAGER.GetCappyButtonPressed();
         CrouchPress = Input_Manager._INPUT_MANAGER.GetCrouchButtonPressed();
+        CrouchNoPress = Input_Manager._INPUT_MANAGER.GetCrouchButtonNoPressed();
         BackflipPress = Input_Manager._INPUT_MANAGER.GetBackflipButtonPressed(); 
     }
     void Gravity()
@@ -187,18 +161,16 @@ public class PlayerController : MonoBehaviour
     {
         if (CrouchPress)
         {
-            isCrouching = true;
-            Debug.Log(isCrouching);
+            Debug.Log(CrouchPress);
             anim.SetBool("Crouch", true);
         }
-        else if (!CrouchPress)
+        if (CrouchNoPress)
         {
             isCrouching = false;
             Debug.Log(isCrouching);
             anim.SetBool("Crouch", false);
         }
     }
-
     public void PlatformJump()
     {
         Jumping(platformJumpForce);
@@ -206,35 +178,9 @@ public class PlayerController : MonoBehaviour
     }
     public void CappyJump()
     {
-        Jumping(platformJumpForce);
+        Jumping(cappyJumpForce);
         anim.SetBool("Jump", true);
     }
-    //public void PlatformMove()
-    //{
-    //    if (groundedPlayer)
-    //    {
-    //        RaycastHit hit;
-    //        if (Physics.Raycast(transform.position, Vector3.down, out hit))
-    //        {
-    //            groundIn = hit.collider.gameObject;
-    //            groundName = groundIn.name;
-    //            groundPosition = groundIn.transform.position;
-    //            if ((groundPosition != lastGroundPosition) && (groundName == lastGroundName))
-    //            {
-    //                this.transform.position += groundPosition - lastGroundPosition;
-    //                controller.enabled = false;
-    //                controller.transform.position = this.transform.position;
-    //                controller.enabled = true;
-    //            }
-    //            lastGroundName = groundName;
-    //            lastGroundPosition = groundPosition;
-    //        }
-    //    }
-    //    else if (!groundedPlayer)
-    //    {
-    //        lastGroundPosition = Vector3.zero;
-    //    }
-    //}
     public float GetVelocity()
     {
         return controller.velocity.magnitude;
