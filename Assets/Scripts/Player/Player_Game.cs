@@ -10,11 +10,22 @@ public class Player_Game : MonoBehaviour
     [SerializeField] bool godMode = false;
     [SerializeField] float time_goodMode = 1f;
     [SerializeField] int money = 0;
+    public GameObject CappyObject;
+    public bool cappySpawned;
+    private void Start()
+    {
+        cappySpawned = true;
+    }
     public void Update()
     {
         if (live <= 0 || money >= 5)
         {
             RestartLevel("SampleScene");
+        }
+        CappyObject = GameObject.FindGameObjectWithTag("Cappy");
+        if (!CappyObject)
+        {
+            cappySpawned = false;
         }
     }
     public void Damage(int dmg)

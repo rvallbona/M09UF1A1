@@ -8,13 +8,20 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] 
     private PlayerInputAction playerInputAction;
+
+    private bool JumpPress;
+    private bool CappyPress;
+    private bool CrouchNoPress;
+    private bool CrouchPress;
+
     private Vector2 moveInput;
+    [SerializeField] private GameObject player;
+
     [SerializeField] Camera cam;
     private CharacterController controller;
-    [SerializeField]private GameObject player;
+
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private bool Colision;
     private float playerSpeed = 5f;
     private float jumpForce = 1f;
     private float doubleJumpForce = 0.7f;
@@ -30,17 +37,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float platformJumpForce = 2f;
     private float cappyJumpForce = 3f;
-
+    //Cappy
+    [SerializeField] GameObject cappy;
+    [SerializeField] GameObject cappySpawn;
+    [SerializeField] public Player_Game player_game;
     //Anim
     private Animator anim;
-
-    private bool isCrouched;
-
-    private bool JumpPress;
-    private bool CappyPress;
-    private bool CrouchNoPress;
-    private bool CrouchPress;
-    private bool BackflipPress;
     private void Awake()
     {
         playerInputAction = new PlayerInputAction();
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
         Movement();
         Jump();
         Crouch();
-
+        Cappy();
         controller.Move(playerVelocity * Time.deltaTime);
     }
     private void FixedUpdate()
@@ -78,7 +80,6 @@ public class PlayerController : MonoBehaviour
         CappyPress = Input_Manager._INPUT_MANAGER.GetCappyButtonPressed();
         CrouchPress = Input_Manager._INPUT_MANAGER.GetCrouchButtonPressed();
         CrouchNoPress = Input_Manager._INPUT_MANAGER.GetCrouchButtonNoPressed();
-        BackflipPress = Input_Manager._INPUT_MANAGER.GetBackflipButtonPressed(); 
     }
     void Gravity()
     {
@@ -109,7 +110,6 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("CrouchSpeed", controller.velocity.magnitude);
         if (groundedPlayer) { anim.SetBool("Jump", false); }
     }
-
     void Jump()
     {
         if (JumpPress && groundedPlayer)
@@ -161,14 +161,21 @@ public class PlayerController : MonoBehaviour
     {
         if (CrouchPress)
         {
-            Debug.Log(CrouchPress);
             anim.SetBool("Crouch", true);
         }
         if (CrouchNoPress)
         {
             isCrouching = false;
-            Debug.Log(isCrouching);
             anim.SetBool("Crouch", false);
+        }
+    }
+    void Cappy()
+    {
+        if (CappyPress && !player_game.cappySpawned)
+        {
+            Debug.Log("CappyShoot");
+            Instantiate(cappy, cappySpawn.transform.position, cappySpawn.transform.rotation);
+            player_game.cappySpawned = true;
         }
     }
     public void PlatformJump()
