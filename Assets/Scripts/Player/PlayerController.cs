@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -37,12 +38,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float platformJumpForce = 2f;
     private float cappyJumpForce = 3f;
-    private bool canSpawnCappy;
-    private float timerCappy;
+    
     //Cappy
     [SerializeField] GameObject cappy;
     [SerializeField] GameObject cappySpawn;
     [SerializeField] public Player_Game player_game;
+    public bool canSpawnCappy;
     //Anim
     private Animator anim;
     private void Awake()
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = gameObject.GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+        canSpawnCappy = true;
     }
     void Update()
     {
@@ -173,27 +175,20 @@ public class PlayerController : MonoBehaviour
     }
     void Cappy()
     {
-        timerCappy += Time.deltaTime;
-        if (timerCappy >= 0)
+        if (CappyPress && canSpawnCappy == true)
         {
-            canSpawnCappy = true;
-        }
-        if (CappyPress && timerCappy <= 6)
-        {
-            Debug.Log("CappyShoot");
+            Debug.Log("spawnCappy");
             Instantiate(cappy, cappySpawn.transform.position, cappySpawn.transform.rotation);
-            canSpawnCappy = false;
-            timerCappy = 0;
         }
-    }
-    public void PlatformJump()
-    {
-        Jumping(platformJumpForce);
-        anim.SetBool("Jump", true);
     }
     public void CappyJump()
     {
         Jumping(cappyJumpForce);
+        anim.SetBool("Jump", true);
+    }
+    public void PlatformJump()
+    {
+        Jumping(platformJumpForce);
         anim.SetBool("Jump", true);
     }
     public float GetVelocity()

@@ -6,9 +6,8 @@ using UnityEngine;
 public class Cappy : MonoBehaviour
 {
     private float timer;
-    private float speedCappy = 50f;
+    private float speedCappy = 100f;
     Rigidbody rb;
-    Player_Game player_game;
     public void Start()
     {
         timer = 0;
@@ -30,12 +29,12 @@ public class Cappy : MonoBehaviour
     }
     public void CappyStartStopDestroy()
     {
-        if (timer <= 3)
+        if (timer <= 2)
         {
             Debug.Log("addforce");
             rb.AddForce(transform.forward * speedCappy * Time.deltaTime, ForceMode.Force);
         }
-        if (timer >= 4)
+        if (timer >= 1.5f)
         {
             rb.velocity = new Vector3(0, 0, 0);
         }
