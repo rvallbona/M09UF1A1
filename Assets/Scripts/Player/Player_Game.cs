@@ -23,6 +23,7 @@ public class Player_Game : MonoBehaviour
             RestartLevel("SampleScene");
         }
         CappyObject = GameObject.FindGameObjectWithTag("Cappy");
+        Debug.Log(live);
     }
     public void Damage(int dmg)
     {
