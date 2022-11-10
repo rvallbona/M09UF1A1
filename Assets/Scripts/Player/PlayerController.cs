@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private float playerSpeed = 5f;
-    private float jumpForce = 1f;
+    private float jumpForce = 0.8f;
     private float doubleJumpForce = 0.7f;
-    private float tripleJumpForce = 0.5f;
-    private float wallJumpForce = 0.5f;
+    private float tripleJumpForce = 0.6f;
+    private float wallJumpForce = 0.6f;
     private float timerWallJump = 0f;
     private bool canDoubleJump = false;
     private bool canTripleJump = false;
@@ -36,14 +36,15 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 10f;
 
     [SerializeField]
-    private float platformJumpForce = 2f;
-    private float cappyJumpForce = 3f;
+    private float platformJumpForce = 0.5f;
+    private float cappyJumpForce = 1f;
     
     //Cappy
     [SerializeField] GameObject cappy;
     [SerializeField] GameObject cappySpawn;
     [SerializeField] public Player_Game player_game;
-    public bool canSpawnCappy;
+    private GameObject cappySpawned = null;
+
     //Anim
     private Animator anim;
     private void Awake()
@@ -62,7 +63,6 @@ public class PlayerController : MonoBehaviour
     {
         controller = gameObject.GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-        canSpawnCappy = true;
     }
     void Update()
     {
@@ -175,10 +175,10 @@ public class PlayerController : MonoBehaviour
     }
     void Cappy()
     {
-        if (CappyPress && canSpawnCappy == true)
+        if (CappyPress && cappySpawned == null)
         {
             Debug.Log("spawnCappy");
-            Instantiate(cappy, cappySpawn.transform.position, cappySpawn.transform.rotation);
+            cappySpawned = Instantiate(cappy, cappySpawn.transform.position, cappySpawn.transform.rotation);
         }
     }
     public void CappyJump()
