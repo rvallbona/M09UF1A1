@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class Input_Manager : MonoBehaviour
 {
     private float timeSinceJumpPressed = 0f;
-    private bool crouchPressed;
+    private bool crouchPressed = false;
     private float timeSinceCappyPressed = 0f;
     private float timeSinceBackflipPressed = 0f; 
     private Vector2 leftAxisValue = Vector2.zero;
@@ -18,7 +18,7 @@ public class Input_Manager : MonoBehaviour
     {
         if (_INPUT_MANAGER != null && _INPUT_MANAGER != this)
         {
-            Destroy(this.gameObject);
+            Destroy(_INPUT_MANAGER);
         }
         else
         {

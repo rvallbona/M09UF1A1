@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Player_Game : MonoBehaviour
 {
-    [SerializeField] int live = 100;
+    [SerializeField] public float live = 100;
     [SerializeField] bool godMode = false;
     [SerializeField] float time_goodMode = 1f;
     [SerializeField] int money = 0;
