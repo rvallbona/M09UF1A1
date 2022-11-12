@@ -18,7 +18,7 @@ public class Input_Manager : MonoBehaviour
     {
         if (_INPUT_MANAGER != null && _INPUT_MANAGER != this)
         {
-            Destroy(_INPUT_MANAGER);
+            Destroy(this.gameObject);
         }
         else
         {
